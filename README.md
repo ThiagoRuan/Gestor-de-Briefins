@@ -2,6 +2,10 @@ O Backend e o Frontend estão separados por pastas.
 
 ------------/Backend/------------
 
+   Pré Requisitos:
+
+   1- Criação do banco de dados:
+   
    O tipo do banco deve ser mySQL, onde o bando de dados 'bancobriefing' possui uma tabela 'briefing' com colunas:
 
    id PRIMARY KEY AUTO_INCREMENT NOT NULL
@@ -21,13 +25,22 @@ O Backend e o Frontend estão separados por pastas.
 
    Feito isso, o banco de dados foi atualizado e definido.
 
+   2- Preferências:
+
    Caso seja necessário, no index.js poderá ser alterado a porta padrão 3333 para a de sua preferência:
    
    app.listen(3333) <--
 
+   3- Execução de inicialização:
+
    Após as etapas necessárias, abra o terminal na pasta /backend/ e execute:
 
    npm start
+
+
+
+   4- Informações do backend:
+
    
    Deve se ter conhecimento dos módulos utilizados no backend:
 
@@ -40,15 +53,46 @@ O Backend e o Frontend estão separados por pastas.
 
    controllers/brf.js - controla a interação com o banco
    
-   routes/briefins.js - controla as rotas e faz requisições ao user.js
+   routes/briefins.js - controla as rotas e faz requisições ao brf.js
 
    index.js - arquivo principal do server
 
-   bd.js - como ter acesso ao banco de dados:
+   bd.js - lógica de acesso ao banco de dados:
 
    
 
 ------------/Frontend/------------
+
+   1- Mudanças obrigatórias:
+
+   Caso houve alguma alteração na porta de escuta do backend, deve ser feita a mesma alteração para o Input.jsx e Grid.jsx
+   deve se mudar o '3333' para a porta utilizada:
+    
+   axios.get('http://localhost:3333') <--
+
+   axios.post('http://localhost:3333') <--
+
+   entre outros...
+
+   Deve-se alterar todas as chamadas da porta de escuta do backend!
+
+   caso não houve mudança de porta, isso não é necessário
+
+   Feito o necessário, deve se ir em um novo terminal e executar:
+
+   cd frontend/briefing-front
+   npm run dev
+
+   Com os 2 terminais ativos, acesse a porta e o Gestor de Briefins estará funcionando!
+
+   Insira-os e Salve, reinicie a página e os novos briefins vão aparecer;
+
+   Edite o nome, a descrição ou o estado a qualquer momento e de qualquer briefing;
+
+   Delete quaisquer briefing que deseja;
+
+
+   ###
 
    Os módulos utilizados:
 
@@ -84,31 +128,7 @@ O Backend e o Frontend estão separados por pastas.
 
    InputStyle.jsx - Estilização para o Input
 
-   Mudanças obrigatórias:
-
-   Caso houve alguma alteração na porta de escuta do backend, deve ser feita a mesma alteração para o Input.jsx e Grid.jsx
-   deve se mudar o '3333' para a porta utilizada:
-    
-   axios.get('http://localhost:3333') <--
-
-   axios.post('http://localhost:3333') <--
-
-   entre outros...
-
-   caso não houve mudança de porta, isso não é necessário
-
-   Feito o necessário, deve se ir em um novo terminal e executar:
-
-   cd frontend/briefing-front
-   npm run dev
-
-   Com os 2 terminais ativos, acesse a porta e o Gestor de Briefins estará funcionando!
-
-   Insira os e Salve, reinicie a página e os novos briefins vão aparecer;
-
-   Edite o nome ou a descrição a qualquer momento e de qualquer briefing;
-
-   Delete quaisquer briefing que deseja;
+   
 
 
 UTILIZAÇÃO DE IA NO DESENVOLVIMENTO:
