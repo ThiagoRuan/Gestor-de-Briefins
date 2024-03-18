@@ -41,7 +41,7 @@ export const Input = styled.input`
     font-size: 15px;
     background-color: #00306e;
     margin-bottom: 10px;
-    font-family: 'JetBrains Mono';
+    font-family: 'JetBrains Mono', Arial;
     color: white;
 
     &:focus {
@@ -60,7 +60,7 @@ export const TextArea = styled.textarea`
     height: auto;
     resize: none;
     background-color: #00306e;
-    font-family: 'JetBrains Mono';
+    font-family: 'JetBrains Mono', Arial;
     color: white;
     overflow: hidden;
     min-height: 100px;

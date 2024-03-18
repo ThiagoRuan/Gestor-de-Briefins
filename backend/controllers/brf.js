@@ -17,8 +17,10 @@ export const addBriefing = (req, res) => {
 
     const qry = 'INSERT INTO briefing( nomeCliente, descricao ) VALUES ( ? )'
     const values = [
+
         req.body.nomeCliente,
         req.body.descricao,
+
     ]
 
     db.query(qry,[values], (err) => {
@@ -31,10 +33,11 @@ export const addBriefing = (req, res) => {
 }
 
 export const updateBriefing = (req, res) => {
-    const qry = 'UPDATE briefing SET `nomeCliente` = ?, `descricao` = ? WHERE `id` = ?'
+    const qry = 'UPDATE briefing SET `nomeCliente` = ?, `descricao` = ?, `estado` = ? WHERE `id` = ?'
     const values = [
         req.body.nomeCliente,
         req.body.descricao,
+        req.body.estado,
     ]
 
     db.query(qry, [...values, req.params.id], (err)=> {

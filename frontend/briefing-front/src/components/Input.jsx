@@ -1,9 +1,9 @@
 import axios from 'axios'
 import React, { useState } from 'react'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import { ButtonContainer, FormContainer, Input, InputGroup, Label, TextArea } from '../styles/InputStyle.jsx'
 import Button from './Button.jsx'
-import 'react-toastify/dist/ReactToastify.css'
-import { ToastContainer, toast } from 'react-toastify'
 
  export const BriefingNovo = () => {
     const [nomeCliente, setNomeCliente] = useState('')

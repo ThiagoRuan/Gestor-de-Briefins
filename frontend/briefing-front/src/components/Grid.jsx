@@ -2,21 +2,18 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { GridCard, GridContainer } from '../styles/GridStyle';
-import { ButtonContainer, Input } from '../styles/InputStyle';
+import { ButtonContainer, Input, Label } from '../styles/InputStyle';
+import { Option, Select } from '../styles/SelectOptionsStyle';
 import Button from './Button';
-import BriefingNovo from './Input';
 
-const BriefingsGrid = () => {
+const Grid = () => {
     const [briefings, setBriefings] = useState([]);
     const [editingId, setEditingId] = useState(null);
     const [newNome, setNewNome] = useState('');
     const [newDescricao, setNewDescricao] = useState('');
+    const [newEstado, setNewEstado] = useState('');
     
-    const handleEdit = (briefing) => {
-      setEditingId(briefing.id)
-      setNewNome(briefing.nomeCliente)
-      setNewDescricao(briefing.descricao)
-    }
+    
     const handleDelete = async (briefingId) => {
       try {
         await axios.delete('http://localhost:3333/'+briefingId)
@@ -28,11 +25,18 @@ const BriefingsGrid = () => {
         toast.error('Erro ao deletar briefing.')
       }
     }
+    const handleEdit = (briefing) => {
+      setEditingId(briefing.id)
+      setNewNome(briefing.nomeCliente)
+      setNewDescricao(briefing.descricao)
+      setNewEstado(briefing.estado)
+    }
     const handleUpdate = async (id) => {
       try {
         await axios.put(`http://localhost:3333/${id}`, {
         nomeCliente: newNome,
         descricao: newDescricao,
+        estado: newEstado,
       });
       toast.success('Briefing atualizado com sucesso!')
       setEditingId(null)
@@ -59,14 +63,28 @@ const BriefingsGrid = () => {
           <GridCard key={briefing.id}>
             {editingId === briefing.id ? (
               <>
+                <Label>Nome do Cliente:</Label>
+                <br/>
                 <Input
                   value = { newNome }
                   onChange = {(e) => setNewNome(e.target.value)}
                 />
+                <br/>
+                <Label>Descrição da Necessidade:</Label>
+                <br/>
                 <Input
                   value={ newDescricao }
                   onChange={(e) => setNewDescricao(e.target.value)}
                 />
+                <br/>
+                  <Label>Estado do briefing:</Label>
+                  <br/>
+                  <Select value={newEstado} onChange={(e) => setNewEstado(e.target.value)}>
+                  <Option value="Negociação">Negociação</Option>
+                  <Option value="Aprovado">Aprovado</Option>
+                  <Option value='Finalizado'>Finalizado</Option>
+                  </Select>
+
                 <Button onClick = {() => handleUpdate(briefing.id)} >Salvar</Button>
               </>
             ) : (
@@ -88,4 +106,4 @@ const BriefingsGrid = () => {
     );
   };
   
-  export default BriefingsGrid;
+  export default Grid;
