@@ -4,24 +4,32 @@ O Backend e o Frontend estão separados por pastas.
 
    Pré Requisitos:
 
+   NodeJs
+   mySQL
+
    1- Criação do banco de dados:
    
-   O tipo do banco deve ser mySQL, onde o bando de dados 'bancobriefing' possui uma tabela 'briefing' com colunas:
+   O tipo do banco deve ser mySQL:
+   
+   Crie um modelo com:
+   User: root
+   Userhost: localhost
+   
+   Crie o bando de dados 'bancobriefing' possui uma tabela 'briefing' com colunas:
 
-   id PRIMARY KEY AUTO_INCREMENT NOT NULL
+   id INT PRIMARY KEY AUTO_INCREMENT NOT NULL
    
    nomeCliente VARCHAR(100) NOT NULL
  
    descricao TEXT NOT NULL
 
-   data_hora TIMESTAMP CURRENT_TIME NOT NULL
+   data_hora TIMESTAMP DEFAULT CURRENT_TIME NOT NULL
 
    estado ENUM("negociação","finalizado","aprovado") DEFAULT 'negociação' NOT NULL
    
-   Com o banco preparado, no arquivo bd.js deve ser feita alterações simples:
-   1- Alterar 'user: root' para o usuário do banco;
-   2- Alterar 'password: dev4sky'
-   3- Mesmo sendo inesperado, caso ainda haja alguma discrepância entre os outros dados, devem ser atualizados também
+   Com o banco preparado, no arquivo bd.js deve ser feita uma alteração simples:
+   
+   Alterar 'password: dev4sky' para a sua senha utilizada no 'mySQL'
 
    Feito isso, o banco de dados foi atualizado e definido.
 
@@ -92,7 +100,7 @@ O Backend e o Frontend estão separados por pastas.
    Delete quaisquer briefing que deseja;
 
 
-   ###
+   
 
    Os módulos utilizados:
 
