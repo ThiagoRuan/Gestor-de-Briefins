@@ -16,13 +16,13 @@ services:
 
   backend:
     build:
-      context: ./backend  # Certifique-se que está correto
+      context: ./backend
       dockerfile: Dockerfile
     container_name: backend
     environment:
       DATABASE_URL: postgres://postgres:postgres@db:5432/bancobriefing
     volumes:
-      - ./backend:/usr/src/app  # Certifique-se que está correto
+      - ./backend:/usr/src/app
     ports:
       - "3333:3333"
     depends_on:
@@ -32,11 +32,11 @@ services:
 
   frontend:
     build:
-      context: ./frontend/briefing-front  # Certifique-se que está correto
+      context: ./frontend/briefing-front
       dockerfile: Dockerfile
     container_name: frontend
     volumes:
-      - ./frontend/briefing-front:/usr/src/app  # Certifique-se que está correto
+      - ./frontend/briefing-front:/usr/src/app
     ports:
       - "3131:3131"
     networks:
