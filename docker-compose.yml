@@ -38,7 +38,7 @@ services:
     volumes:
       - ./frontend/briefing-front:/usr/src/app  # Certifique-se que está correto
     ports:
-      - "3000:3000"
+      - "3131:3131"
     networks:
       - backend_network
 
