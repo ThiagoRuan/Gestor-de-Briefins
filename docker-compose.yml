@@ -1,0 +1,50 @@
+version: '3'
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: bancobriefing
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - backend_network
+
+  backend:
+    build:
+      context: ./backend  # Certifique-se que está correto
+      dockerfile: Dockerfile
+    container_name: backend
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@db:5432/bancobriefing
+    volumes:
+      - ./backend:/usr/src/app  # Certifique-se que está correto
+    ports:
+      - "3333:3333"
+    depends_on:
+      - db
+    networks:
+      - backend_network
+
+  frontend:
+    build:
+      context: ./frontend/briefing-front  # Certifique-se que está correto
+      dockerfile: Dockerfile
+    container_name: frontend
+    volumes:
+      - ./frontend/briefing-front:/usr/src/app  # Certifique-se que está correto
+    ports:
+      - "3000:3000"
+    networks:
+      - backend_network
+
+volumes:
+  postgres_data:
+
+networks:
+  backend_network:
+    driver: bridge

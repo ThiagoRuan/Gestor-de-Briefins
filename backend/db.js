@@ -2,7 +2,7 @@ import pkg from 'pg';
 const { Client } = pkg;
 
 export const db = new Client({
-  host: 'localhost',
+  host: 'postgres_db',
   user: 'postgres',
   password: 'postgres',
   database: 'bancobriefing',
