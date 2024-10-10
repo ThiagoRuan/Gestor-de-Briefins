@@ -1,3 +1,7 @@
+Para rodar com docker:
+ - docker compose up
+ - acessa a porta localhost:3333 no seu navegador
+
 tenha instalado o nodeJS e Mysql
 obs:
 Criação do banco de dados:
