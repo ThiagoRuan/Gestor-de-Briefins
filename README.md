@@ -1,5 +1,6 @@
 Para rodar com docker:
  - docker compose up
+ - docker exec -it postgres_db psql -U postgres -d bancobriefing -c "CREATE TABLE briefing (id SERIAL PRIMARY KEY, nomeCliente VARCHAR(100) NOT NULL, descricao TEXT NOT NULL, data_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, estado VARCHAR(50) DEFAULT 'negociação' NOT NULL CHECK (estado IN ('negociação', 'finalizado', 'aprovado')));"
  - acessa a porta localhost:3333 no seu navegador
 
 tenha instalado o nodeJS e Mysql
