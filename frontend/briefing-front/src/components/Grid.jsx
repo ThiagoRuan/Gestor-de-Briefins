@@ -7,103 +7,112 @@ import { Option, Select } from '../styles/SelectOptionsStyle';
 import Button from './Button';
 
 const Grid = () => {
-    const [briefings, setBriefings] = useState([]);
-    const [editingId, setEditingId] = useState(null);
-    const [newNome, setNewNome] = useState('');
-    const [newDescricao, setNewDescricao] = useState('');
-    const [newEstado, setNewEstado] = useState('');
-    
-    
-    const handleDelete = async (briefingId) => {
-      try {
-        await axios.delete('http://localhost:3333/'+briefingId)
-        setBriefings(briefings
-          .filter(briefing => briefing.briefingId !== briefingId))
-        toast.success('Briefing deletado com sucesso!')
-        fetchBriefings();
-      } catch (error) {
-        toast.error('Erro ao deletar briefing.')
-      }
+  const [briefings, setBriefings] = useState([]); // Inicializa como array vazio
+  const [editingId, setEditingId] = useState(null);
+  const [newNome, setNewNome] = useState('');
+  const [newDescricao, setNewDescricao] = useState('');
+  const [newEstado, setNewEstado] = useState('');
+
+  const handleDelete = async (briefingId) => {
+    try {
+      await axios.delete(`http://localhost:3333/${briefingId}`);
+      setBriefings(briefings.filter(briefing => briefing.id !== briefingId));
+      toast.success('Briefing deletado com sucesso!');
+    } catch (error) {
+      toast.error('Erro ao deletar briefing.');
     }
-    const handleEdit = (briefing) => {
-      setEditingId(briefing.id)
-      setNewNome(briefing.nomeCliente)
-      setNewDescricao(briefing.descricao)
-      setNewEstado(briefing.estado)
-    }
-    const handleUpdate = async (id) => {
-      try {
-        await axios.put(`http://localhost:3333/${id}`, {
+  };
+
+  const handleEdit = (briefing) => {
+    setEditingId(briefing.id);
+    setNewNome(briefing.nomeCliente);
+    setNewDescricao(briefing.descricao);
+    setNewEstado(briefing.estado);
+  };
+
+  const handleUpdate = async (id) => {
+    try {
+      await axios.put(`http://localhost:3333/${id}`, {
         nomeCliente: newNome,
         descricao: newDescricao,
         estado: newEstado,
       });
-      toast.success('Briefing atualizado com sucesso!')
-      setEditingId(null)
-      fetchBriefings()
-      } catch (error) {
-        toast.error('Erro ao atualizar briefing.')
-      }
+      toast.success('Briefing atualizado com sucesso!');
+      setEditingId(null);
+      fetchBriefings(); // Recarrega os dados atualizados
+    } catch (error) {
+      toast.error('Erro ao atualizar briefing.');
     }
-    const fetchBriefings = async () => {
-        try {
-          const response = await axios.get('http://localhost:3333/');
-          setBriefings(response.data);
-        } catch (error) {
-          toast.error('Erro ao buscar briefins.')
-        }
-      }
-    useEffect(() => {
-      fetchBriefings()
-    }, []);
-  
-    return (
-      <GridContainer>
-        {briefings.map((briefing) => (
+  };
+
+  const fetchBriefings = async () => {
+    try {
+      const response = await axios.get('http://localhost:3333/');
+      // Certifique-se de que response.data é um array antes de chamar setBriefings
+      setBriefings(Array.isArray(response.data) ? response.data : []);
+    } catch (error) {
+      toast.error('Erro ao buscar briefins.');
+    }
+  };
+
+  useEffect(() => {
+    fetchBriefings();
+  }, []);
+
+  return (
+    <GridContainer>
+      {briefings.length > 0 ? ( // Verifica se briefings é um array e tem dados
+        briefings.map((briefing) => (
           <GridCard key={briefing.id}>
             {editingId === briefing.id ? (
               <>
                 <Label>Nome do Cliente:</Label>
-                <br/>
+                <br />
                 <Input
-                  value = { newNome }
-                  onChange = {(e) => setNewNome(e.target.value)}
+                  value={newNome}
+                  onChange={(e) => setNewNome(e.target.value)}
                 />
-                <br/>
+                <br />
                 <Label>Descrição da Necessidade:</Label>
-                <br/>
+                <br />
                 <Input
-                  value={ newDescricao }
+                  value={newDescricao}
                   onChange={(e) => setNewDescricao(e.target.value)}
                 />
-                <br/>
-                  <Label>Estado do briefing:</Label>
-                  <br/>
-                  <Select value={newEstado} onChange={(e) => setNewEstado(e.target.value)}>
+                <br />
+                <Label>Estado do briefing:</Label>
+                <br />
+                <Select
+                  value={newEstado}
+                  onChange={(e) => setNewEstado(e.target.value)}
+                >
                   <Option value="Negociação">Negociação</Option>
                   <Option value="Aprovado">Aprovado</Option>
-                  <Option value='Finalizado'>Finalizado</Option>
-                  </Select>
+                  <Option value="Finalizado">Finalizado</Option>
+                </Select>
 
-                <Button onClick = {() => handleUpdate(briefing.id)} >Salvar</Button>
+                <Button onClick={() => handleUpdate(briefing.id)}>Salvar</Button>
               </>
             ) : (
               <>
                 <h2>{briefing.nomeCliente}</h2>
-                <hr/>
+                <hr />
                 <p>{briefing.descricao}</p>
                 <h5><strong>Data e Hora de Criação:</strong> {briefing.data_hora}</h5>
                 <h5><strong>Estado do briefing:</strong> {briefing.estado}</h5>
                 <ButtonContainer>
-                <Button onClick={() => handleEdit(briefing)}>Editar</Button>
-                <Button onClick={() => handleDelete(briefing.id)}>Deletar</Button>
+                  <Button onClick={() => handleEdit(briefing)}>Editar</Button>
+                  <Button onClick={() => handleDelete(briefing.id)}>Deletar</Button>
                 </ButtonContainer>
               </>
             )}
           </GridCard>
-        ))}
-      </GridContainer>
-    );
-  };
-  
-  export default Grid;
+        ))
+      ) : (
+        <p>Nenhum briefing encontrado.</p>
+      )}
+    </GridContainer>
+  );
+};
+
+export default Grid;

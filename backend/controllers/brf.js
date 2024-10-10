@@ -1,60 +1,58 @@
-import { db } from '../db.js'
+// Importa o cliente do PostgreSQL
+import { db } from '../db.js';
 
-export const getBriefins = (_,res) => {
+// Função para buscar todos os briefings
+export const getBriefins = async (_, res) => {
+    const qry = 'SELECT * FROM briefing';
+    try {
+        const result = await db.query(qry); // Usando await para a consulta
+        return res.status(200).json(result.rows); // PostgreSQL usa 'rows' para os dados retornados
+    } catch (err) {
+        return res.json(err);
+    }
+};
 
-    const qry = 'SELECT * FROM briefing'
-
-    db.query(qry, (err, data) => {
-
-        if (err) return res.json(err)
-        
-        return res.status(200).json(data)
-
-    })
-}
-
-export const addBriefing = (req, res) => {
-
-    const qry = 'INSERT INTO briefing( nomeCliente, descricao ) VALUES ( ? )'
+// Função para adicionar um novo briefing
+export const addBriefing = async (req, res) => {
+    const qry = 'INSERT INTO briefing (nomeCliente, descricao) VALUES ($1, $2)';
     const values = [
-
         req.body.nomeCliente,
         req.body.descricao,
+    ];
 
-    ]
+    try {
+        await db.query(qry, values); // Passa os valores diretamente
+        return res.status(200).json('Briefing criado com sucesso');
+    } catch (err) {
+        return res.json(err);
+    }
+};
 
-    db.query(qry,[values], (err) => {
-
-        if (err) return res.json(err)
-
-        return res.status(200).json('Briefing criado com sucesso')
-
-    })
-}
-
-export const updateBriefing = (req, res) => {
-    const qry = 'UPDATE briefing SET `nomeCliente` = ?, `descricao` = ?, `estado` = ? WHERE `id` = ?'
+// Função para atualizar um briefing existente
+export const updateBriefing = async (req, res) => {
+    const qry = 'UPDATE briefing SET nomeCliente = $1, descricao = $2, estado = $3 WHERE id = $4';
     const values = [
         req.body.nomeCliente,
         req.body.descricao,
         req.body.estado,
-    ]
+        req.params.id,
+    ];
 
-    db.query(qry, [...values, req.params.id], (err)=> {
-        if (err) return res.json(err)
+    try {
+        await db.query(qry, values); // Atualiza com base nos valores e ID
+        return res.status(200).json('Briefing atualizado com sucesso');
+    } catch (err) {
+        return res.json(err);
+    }
+};
 
-        return res.status(200).json('Briefing atualizado com sucesso')
-    })
-}
-export const deleteBriefing = (req, res) => {
-
-    const qry = 'DELETE FROM briefing WHERE `id` = ?'
-
-    db.query(qry,[req.params.id], (err) => {
-
-        if (err) return res.json(err)
-        
-        return res.status(200).json('Briefing deletado com sucesso')
-
-    })
-}
+// Função para deletar um briefing
+export const deleteBriefing = async (req, res) => {
+    const qry = 'DELETE FROM briefing WHERE id = $1';
+    try {
+        await db.query(qry, [req.params.id]); // Deleta com base no ID
+        return res.status(200).json('Briefing deletado com sucesso');
+    } catch (err) {
+        return res.json(err);
+    }
+};
