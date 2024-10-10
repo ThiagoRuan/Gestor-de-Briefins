@@ -5,4 +5,5 @@ RUN npm install
 COPY . .
 RUN npm install -g nodemon
 EXPOSE 3333
+CMD ["npm", "install", "cors"]
 CMD ["npm", "start"]
